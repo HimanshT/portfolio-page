@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Himanshu Tripathi | Software Engineer</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #FFFFFF;
+            --fg: #000000;
+            --accent: #FF0000;
+            --secondary: #F5F5F5;
+            --border: #E5E5E5;
+        }
+
+        body {
+            font-family: 'Space Grotesk', sans-serif;
+            background-color: var(--bg);
+            color: var(--fg);
+            overflow-x: hidden;
+        }
+
+        .serif {
+            font-family: 'Playfair Display', serif;
+        }
+
+        /* Brutalist Elements */
+        .brutal-border {
+            border: 2px solid var(--fg);
+        }
+
+        .grid-bg {
+            background-image: radial-gradient(rgba(0,0,0,0.1) 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+
+        .section-number {
+            font-size: 15rem;
+            line-height: 1;
+            font-weight: 900;
+            color: transparent;
+            -webkit-text-stroke: 1px rgba(0,0,0,0.05);
+            position: absolute;
+            top: -2rem;
+            right: 2rem;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .tech-label {
+            font-size: 0.6rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            color: rgba(0,0,0,0.3);
+        }
+
+        .brutal-shadow {
+            box-shadow: 4px 4px 0px var(--fg);
+        }
+
+        .brutal-shadow-red {
+            box-shadow: 4px 4px 0px var(--accent);
+        }
+
+        .hover-brutal:hover {
+            transform: translate(-2px, -2px);
+            box-shadow: 6px 6px 0px var(--accent);
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--bg);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--fg);
+            border: 2px solid var(--bg);
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--accent);
+        }
+
+        /* Animations */
+        .reveal {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Project Card Hover */
+        .project-card {
+            height: 350px; /* Standardized height */
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .project-card .tech-overlay {
+            position: absolute;
+            inset: 0;
+            background: var(--accent);
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            opacity: 0;
+            transform: translateY(100%);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            z-index: 20;
+        }
+
+        .project-card:hover .tech-overlay {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .tech-btn {
+            background: var(--fg);
+            color: var(--bg);
+            padding: 0.5rem 1rem;
+            font-size: 0.75rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            border: 2px solid var(--fg);
+            transition: all 0.2s ease;
+            cursor: default;
+        }
+
+        .tech-btn:hover {
+            background: var(--bg);
+            color: var(--fg);
+            transform: translate(-2px, -2px);
+            box-shadow: 4px 4px 0px var(--bg);
+        }
+
+        /* Networking Art Decoration */
+        .network-art {
+            position: absolute;
+            right: -10%;
+            top: 20%;
+            width: 40%;
+            height: 60%;
+            opacity: 0.05;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .network-node {
+            fill: var(--fg);
+        }
+
+        .network-line {
+            stroke: var(--fg);
+            stroke-width: 2;
+            stroke-dasharray: 5,5;
+        }
+
+        .network-line.active {
+            stroke: var(--accent);
+            stroke-dasharray: none;
+            animation: dash 20s linear infinite;
+        }
+
+        @keyframes dash {
+            to {
+                stroke-dashoffset: -1000;
+            }
+        }
+
+        /* Marquee */
+        .marquee {
+            background: var(--fg);
+            color: var(--bg);
+            padding: 20px 0;
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 2rem;
+        }
+
+        .marquee-item {
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: -0.02em;
+        }
+
+        /* Section Dividers */
+        .section-divider {
+            height: 1px;
+            background: var(--border);
+            width: 100%;
+        }
+
+        /* Navigation */
+        .nav-link {
+            position: relative;
+            font-weight: 500;
+        }
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -2px;
+            left: 0;
+            background-color: var(--accent);
+            transition: width 0.3s ease;
+        }
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        /* Red Dot */
+        .red-dot {
+            width: 8px;
+            height: 8px;
+            background-color: var(--accent);
+            border-radius: 50%;
+            display: inline-block;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="fixed top-0 left-0 w-full z-50 bg-white/80 backdrop-blur-md border-b border-black/5 px-6 py-4 flex justify-between items-center">
+        <a href="#" class="text-2xl font-bold tracking-tighter flex items-center gap-2">
+            HT <span class="red-dot"></span>
+        </a>
+        <div class="hidden md:flex space-x-8 text-sm font-bold uppercase tracking-widest">
+            <a href="#experience" class="nav-link">Experience</a>
+            <a href="#projects" class="nav-link">Projects</a>
+            <a href="#skills" class="nav-link">Skills</a>
+            <a href="#about" class="nav-link">About</a>
+        </div>
+        <a href="mailto:HIMANSHUTRIPATHI4462@gmail.com" class="text-sm font-bold border-2 border-black px-6 py-2 brutal-shadow hover:bg-black hover:text-white transition-all">Contact</a>
+    </nav>
+
+    <main class="pt-24">
+        <!-- Hero Section -->
+        <section class="min-h-[80vh] flex flex-col justify-center px-6 md:px-24 py-20 relative overflow-hidden">
+            <!-- Complex Networking Art -->
+            <svg class="network-art" viewBox="0 0 400 600" xmlns="http://www.w3.org/2000/svg">
+                <circle class="network-node" cx="100" cy="100" r="4"/>
+                <circle class="network-node" cx="300" cy="150" r="4"/>
+                <circle class="network-node" cx="200" cy="300" r="4"/>
+                <circle class="network-node" cx="350" cy="450" r="4"/>
+                <circle class="network-node" cx="50" cy="500" r="4"/>
+                <line class="network-line active" x1="100" y1="100" x2="300" y2="150"/>
+                <line class="network-line" x1="300" y1="150" x2="200" y2="300"/>
+                <line class="network-line active" x1="200" y1="300" x2="350" y2="450"/>
+                <line class="network-line" x1="350" y1="450" x2="50" y2="500"/>
+                <line class="network-line active" x1="50" y1="500" x2="100" y2="100"/>
+                <line class="network-line" x1="100" y1="100" x2="200" y2="300"/>
+                <path d="M 100 100 Q 200 50 300 150" fill="none" class="network-line" stroke-width="1"/>
+                <path d="M 300 150 Q 400 300 350 450" fill="none" class="network-line active" stroke-width="1"/>
+            </svg>
+
+            <div class="reveal text-center">
+                <p class="text-sm font-bold uppercase tracking-[0.3em] mb-6 text-red-600">
+                    Software Engineer @ Palo Alto Networks
+                </p>
+                <h1 class="serif text-6xl md:text-9xl leading-none mb-8 font-bold">
+                    Himanshu <br>
+                    <span class="text-red-600 italic">Tripathi</span>
+                </h1>
+                <div class="flex flex-col items-center gap-12 mt-12">
+                    <p class="max-w-2xl text-xl text-gray-600 leading-relaxed font-medium mx-auto">
+                        Engineering high-performance networking, cloud security, and scalable backend systems. Based in Bangalore, building the backbone of secure digital infrastructure.
+                    </p>
+                    <div class="flex flex-wrap justify-center gap-6">
+                        <a href="#projects" class="bg-black text-white px-10 py-5 font-bold brutal-shadow-red hover:translate-y-[-2px] transition-all">View Work</a>
+                        <a href="#about" class="border-2 border-black px-10 py-5 font-bold brutal-shadow hover:bg-black hover:text-white transition-all">About Me</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Marquee -->
+        <div class="marquee border-y-2 border-black px-6">
+            <span class="marquee-item text-2xl">Networking</span>
+            <span class="marquee-item text-2xl text-red-500">Cloud Security</span>
+            <span class="marquee-item text-2xl">Backend Systems</span>
+            <span class="marquee-item text-2xl text-red-500">C++</span>
+            <span class="marquee-item text-2xl">Linux</span>
+            <span class="marquee-item text-2xl text-red-500">Distributed Systems</span>
+        </div>
+
+        <!-- Experience Section -->
+        <section id="experience" class="py-32 px-6 md:px-24 relative grid-bg">
+            <div class="section-number">01</div>
+            <div class="absolute top-10 left-10 tech-label hidden md:block">
+                SYS: HIGH_PERF_NETWORKING
+            </div>
+            <div class="flex flex-col md:flex-row justify-between items-start mb-20 reveal">
+                <h2 class="serif text-5xl md:text-8xl font-bold">Experience</h2>
+                <p class="text-gray-500 max-w-xs mt-4 md:mt-0 font-medium">Engineering secure and high-performance cloud infrastructure at scale.</p>
+            </div>
+
+            <div class="space-y-12">
+                <div class="border-2 border-black p-8 md:p-12 brutal-shadow-red reveal">
+                    <div class="flex flex-col md:flex-row justify-between items-start mb-8 gap-4">
+                        <div>
+                            <span class="text-red-600 font-bold uppercase tracking-widest text-sm">Current Role</span>
+                            <h3 class="text-4xl font-bold mt-2">Software Engineer</h3>
+                            <p class="text-2xl font-medium text-gray-600">Palo Alto Networks</p>
+                        </div>
+                        <div class="text-right font-bold text-gray-400">
+                            Aug 2024 — Present <br>
+                            Bangalore, India
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <ul class="space-y-4 text-gray-700 font-medium">
+                            <li class="flex gap-3">
+                                <span class="text-red-600">/</span>
+                                <span>Implemented SR-IOV–based high-performance networking on a public cloud platform, improving packet throughput and
+reducing latency for virtualized network services</span>
+                            </li>
+                            <li class="flex gap-3">
+                                <span class="text-red-600">/</span>
+                                <span>Designed and shipped scalable streaming features for a cloud-based firewall platform, enabling reliable, low-latency event
+ingestion across large-scale production deployments</span>
+                            </li>
+                        </ul>
+                        <ul class="space-y-4 text-gray-700 font-medium">
+                            <li class="flex gap-3">
+                                <span class="text-red-600">/</span>
+                                <span>Enabled secure, compliant cloud deployments for a government-regulated environment by delivering platform support for
+a virtualized firewall service in a restricted region</span>
+                            </li>
+                            <li class="flex gap-3">
+                                <span class="text-red-600">/</span>
+                                <span>Refactored and modularized a large, production-critical cloud codebase, reducing technical debt and improving
+maintainability, testability, and feature velocity</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Projects Section -->
+        <section id="projects" class="py-32 px-6 md:px-24 bg-black text-white relative overflow-hidden">
+            <div class="section-number" style="-webkit-text-stroke: 1px rgba(255,255,255,0.1);">02</div>
+            <div class="absolute bottom-10 right-10 tech-label text-white/30 hidden md:block">
+                VER: 2.0.4 <br>
+                BUILD: PRODUCTION_READY
+            </div>
+            <div class="flex flex-col md:flex-row justify-between items-start mb-20 reveal">
+                <h2 class="serif text-5xl md:text-8xl font-bold">Projects</h2>
+                <p class="text-gray-400 max-w-xs mt-4 md:mt-0 font-medium">A collection of systems where performance meets security.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Project 1 -->
+                <div class="project-card border-2 border-white p-8 relative overflow-hidden reveal">
+                    <div class="relative z-10">
+                        <h3 class="text-3xl font-bold mb-4">Polestar</h3>
+                        <p class="project-summary text-gray-400 font-medium">
+                            High-performance user-space firewall in C++ using Linux Netfilter (NFQUEUE) for granular packet inspection.
+                        </p>
+                    </div>
+                    <div class="tech-overlay">
+                        <h4 class="text-xl font-bold mb-6">Tech Stack</h4>
+                        <div class="flex flex-wrap justify-center gap-3">
+                            <button class="tech-btn">C++</button>
+                            <button class="tech-btn">Linux</button>
+                            <button class="tech-btn">Netfilter</button>
+                        </div>
+                        <a href="" class="mt-8 font-bold underline hover:text-black transition-colors">View Details</a>
+                    </div>
+                    <div class="mt-8 flex justify-between items-center relative z-10">
+                        <span class="text-xs font-bold uppercase tracking-widest text-red-500">System / Networking</span>
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
+                    </div>
+                </div>
+
+                <!-- Project 2 -->
+                <div class="project-card border-2 border-white p-8 relative overflow-hidden reveal" style="transition-delay: 0.1s;">
+                    <div class="relative z-10">
+                        <h3 class="text-3xl font-bold mb-4">YourTrip</h3>
+                        <p class="project-summary text-gray-400 font-medium">
+                            Dynamic travel platform with Mapbox integration and Cloudinary media management.
+                        </p>
+                    </div>
+                    <div class="tech-overlay">
+                        <h4 class="text-xl font-bold mb-6">Tech Stack</h4>
+                        <div class="flex flex-wrap justify-center gap-3">
+                            <button class="tech-btn">Node.js</button>
+                            <button class="tech-btn">MongoDB</button>
+                            <button class="tech-btn">Mapbox</button>
+                        </div>
+                        <a href="https://github.com/HimanshT/yourTrip" class="mt-8 font-bold underline hover:text-black transition-colors">View Details</a>
+                    </div>
+                    <div class="mt-8 flex justify-between items-center relative z-10">
+                        <span class="text-xs font-bold uppercase tracking-widest text-red-500">Web / Backend</span>
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
+                    </div>
+                </div>
+
+                <!-- Project 3 -->
+                <div class="project-card border-2 border-white p-8 relative overflow-hidden reveal" style="transition-delay: 0.2s;">
+                    <div class="relative z-10">
+                        <h3 class="text-3xl font-bold mb-4">Puzzlenia</h3>
+                        <p class="project-summary text-gray-400 font-medium">
+                            Interactive puzzle practice platform with social features and secure authentication.
+                        </p>
+                    </div>
+                    <div class="tech-overlay">
+                        <h4 class="text-xl font-bold mb-6">Tech Stack</h4>
+                        <div class="flex flex-wrap justify-center gap-3">
+                            <button class="tech-btn">React</button>
+                            <button class="tech-btn">Express</button>
+                            <button class="tech-btn">JWT</button>
+                        </div>
+                        <a href="https://github.com/HimanshT/puzzlenia" class="mt-8 font-bold underline hover:text-black transition-colors">View Details</a>
+                    </div>
+                    <div class="mt-8 flex justify-between items-center relative z-10">
+                        <span class="text-xs font-bold uppercase tracking-widest text-red-500">Full Stack</span>
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Skills Section -->
+        <section id="skills" class="py-32 px-6 md:px-24 relative grid-bg">
+            <div class="section-number">03</div>
+            <div class="flex flex-col md:flex-row justify-between items-start mb-20 reveal">
+                <h2 class="serif text-5xl md:text-8xl font-bold">Skills</h2>
+                <p class="text-gray-500 max-w-xs mt-4 md:mt-0 font-medium">Categorized expertise in building robust digital systems.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
+                <!-- Languages -->
+                <div class="reveal">
+                    <h3 class="text-xl font-bold mb-6 flex items-center gap-3">
+                        <span class="w-2 h-2 bg-red-600 rounded-full"></span>
+                        Languages
+                    </h3>
+                    <ul class="space-y-3 font-medium text-gray-600">
+                        <li class="hover:text-black transition-colors">C / C++</li>
+                        <li class="hover:text-black transition-colors">Python</li>
+                        <li class="hover:text-black transition-colors">JavaScript (ES6+)</li>
+                        <li class="hover:text-black transition-colors">SQL</li>
+                    </ul>
+                </div>
+
+                <!-- Backend & Systems -->
+                <div class="reveal" style="transition-delay: 0.1s;">
+                    <h3 class="text-xl font-bold mb-6 flex items-center gap-3">
+                        <span class="w-2 h-2 bg-red-600 rounded-full"></span>
+                        Backend & Systems
+                    </h3>
+                    <ul class="space-y-3 font-medium text-gray-600">
+                        <li class="hover:text-black transition-colors">Node.js / Express</li>
+                        <li class="hover:text-black transition-colors">Linux Netfilter</li>
+                        <li class="hover:text-black transition-colors">Multithreading</li>
+                        <li class="hover:text-black transition-colors">System Design</li>
+                        <li class="hover:text-black transition-colors">Distributed Systems</li>
+                    </ul>
+                </div>
+
+                <!-- Networking & Cloud -->
+                <div class="reveal" style="transition-delay: 0.2s;">
+                    <h3 class="text-xl font-bold mb-6 flex items-center gap-3">
+                        <span class="w-2 h-2 bg-red-600 rounded-full"></span>
+                        Networking & Cloud
+                    </h3>
+                    <ul class="space-y-3 font-medium text-gray-600">
+                        <li class="hover:text-black transition-colors">TCP/IP Stack</li>
+                        <li class="hover:text-black transition-colors">SR-IOV / DPDK</li>
+                        <li class="hover:text-black transition-colors">Azure / OCI</li>
+                        <li class="hover:text-black transition-colors">Cloud Security</li>
+                        <li class="hover:text-black transition-colors">Terraform</li>
+                    </ul>
+                </div>
+
+                <!-- Tools & Databases -->
+                <div class="reveal" style="transition-delay: 0.3s;">
+                    <h3 class="text-xl font-bold mb-6 flex items-center gap-3">
+                        <span class="w-2 h-2 bg-red-600 rounded-full"></span>
+                        Tools & Databases
+                    </h3>
+                    <ul class="space-y-3 font-medium text-gray-600">
+                        <li class="hover:text-black transition-colors">Docker / Kubernetes</li>
+                        <li class="hover:text-black transition-colors">Git / GitHub Actions</li>
+                        <li class="hover:text-black transition-colors">MongoDB</li>
+                        <li class="hover:text-black transition-colors">PostgreSQL</li>
+                        <li class="hover:text-black transition-colors">Redis</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section id="about" class="py-32 px-6 md:px-24 bg-gray-50">
+            <div class="flex flex-col md:flex-row justify-between items-start mb-20 reveal">
+                <h2 class="serif text-5xl md:text-8xl font-bold">About</h2>
+                <p class="text-gray-500 max-w-xs mt-4 md:mt-0 font-medium">The person behind the systems, driven by curiosity.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-16">
+                <div class="reveal">
+                    <h3 class="text-3xl font-bold mb-8">Timeline</h3>
+                    <div class="space-y-8">
+                        <div class="border-l-2 border-black pl-8 relative">
+                            <div class="absolute -left-[9px] top-0 w-4 h-4 bg-red-600 rounded-full"></div>
+                            <span class="text-sm font-bold text-red-600 uppercase tracking-widest">2024 — Present</span>
+                            <h4 class="text-xl font-bold mt-2">Software Engineer</h4>
+                            <p class="text-gray-600 font-medium">Palo Alto Networks, Bangalore</p>
+                        </div>
+                        <div class="border-l-2 border-black pl-8 relative">
+                            <div class="absolute -left-[9px] top-0 w-4 h-4 bg-black rounded-full"></div>
+                            <span class="text-sm font-bold text-gray-400 uppercase tracking-widest">2020 — 2024</span>
+                            <h4 class="text-xl font-bold mt-2">B.Tech in Electrical Engineering</h4>
+                            <p class="text-gray-600 font-medium">MNNIT, Prayagraj</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="reveal">
+                    <h3 class="text-3xl font-bold mb-8">Summary</h3>
+                    <p class="text-gray-600 text-xl leading-relaxed mb-8 font-medium">
+                        I am a Software Engineer at <span class="text-black font-bold">Palo Alto Networks</span> specializing in high-performance networking and cloud infrastructure.
+                    </p>
+                    <p class="text-gray-600 text-lg leading-relaxed mb-12 font-medium">
+                        My work focuses on optimizing packet throughput, architecting secure storage access, and building scalable cloud systems. I've solved over 1000 DSA problems, which fuels my passion for efficient system design and complex problem-solving.
+                    </p>
+                    <div class="grid grid-cols-2 gap-8">
+                        <div class="border-2 border-black p-6 brutal-shadow">
+                            <p class="text-4xl font-bold mb-1">1k+</p>
+                            <p class="text-xs font-bold uppercase tracking-widest text-gray-400">DSA Problems</p>
+                        </div>
+                        <div class="border-2 border-black p-6 brutal-shadow-red">
+                            <p class="text-4xl font-bold mb-1">3+</p>
+                            <p class="text-xs font-bold uppercase tracking-widest text-gray-400">Cloud Platforms</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="py-20 px-6 md:px-24 border-t-2 border-black">
+        <div class="flex flex-col md:flex-row justify-between items-center gap-12">
+            <div class="text-center md:text-left">
+                <h2 class="serif text-5xl md:text-7xl font-bold mb-6">Let's build <br> <span class="text-red-600 italic">together</span>.</h2>
+                <p class="text-gray-500 font-medium">Available for collaborations and technical discussions.</p>
+            </div>
+            <div class="flex flex-wrap justify-center gap-8 font-bold uppercase tracking-widest text-sm">
+                <a href="https://www.linkedin.com/in/htripathi29/" class="nav-link">LinkedIn</a>
+                <a href="https://github.com/himansht" class="nav-link">GitHub</a>
+                <a href="mailto:HIMANSHUTRIPATHI4462@gmail.com" class="nav-link text-red-600">Email</a>
+            </div>
+        </div>
+        <div class="mt-20 flex flex-col md:flex-row justify-between items-center text-xs font-bold uppercase tracking-widest text-gray-400 gap-4">
+            <p>© 2026 Himanshu Tripathi</p>
+        </div>
+    </footer>
+
+    <script>
+        // Scroll Reveal Animation
+        const observerOptions = {
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.reveal').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Smooth Scroll for Navigation
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    window.scrollTo({
+                        top: target.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // Interactive Networking Art
+        const svg = document.querySelector('.network-art');
+        const nodes = document.querySelectorAll('.network-node');
+        
+        document.addEventListener('mousemove', (e) => {
+            const x = (e.clientX / window.innerWidth - 0.5) * 20;
+            const y = (e.clientY / window.innerHeight - 0.5) * 20;
+            
+            if (svg) {
+                svg.style.transform = `translate(${x}px, ${y}px)`;
+            }
+            
+            nodes.forEach((node, i) => {
+                const factor = (i + 1) * 0.2;
+                node.setAttribute('transform', `translate(${x * factor}, ${y * factor})`);
+            });
+        });
+    </script>
+</body>
+</html>
